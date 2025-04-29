@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Build Changelogs</title>
+        <meta name="description" content="Find the latest device specific changelogs for various custom ROM builds with author's name.">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/webp" href="Android-15-AOSP.webp"> 
+    </head>
+
+<body>
+    <div id="custom-cursor"></div>
+    <header>
+        <button
+          class="menu-icon group flex items-center justify-center relative z-10 rounded-[0.375rem] p-[5px] cursor-pointer border border-[#999] outline-none focus-visible:outline-0"
+          aria-label="Toggle Menu" aria-expanded="false" aria-controls="sidebar"
+          onclick="toggleSidebar()" >
+            <svg fill="currentColor" stroke="none" stroke-width="0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 overflow-visible [transition:transform_.35s_ease] group-hover:[transition-delay:.25s] [&amp;_path]:[transition:transform_.35s_ease] group-hover:rotate-45">
+                <path class="group-hover:[transform:rotate(112.5deg)_translate(-27.2%,-80.2%)]" d="m3.45,8.83c-.39,0-.76-.23-.92-.62-.21-.51.03-1.1.54-1.31L14.71,2.08c.51-.21,1.1.03,1.31.54.21.51-.03,1.1-.54,1.31L3.84,8.75c-.13.05-.25.08-.38.08Z"></path>
+                <path class="group-hover:[transform:rotate(22.5deg)_translate(15.5%,-23%)]" d="m2.02,17.13c-.39,0-.76-.23-.92-.62-.21-.51.03-1.1.54-1.31L21.6,6.94c.51-.21,1.1.03,1.31.54.21.51-.03,1.1-.54,1.31L2.4,17.06c-.13.05-.25.08-.38.08Z"></path>
+                <path class="group-hover:[transform:rotate(112.5deg)_translate(-15%,-149.5%)]" d="m8.91,21.99c-.39,0-.76-.23-.92-.62-.21-.51.03-1.1.54-1.31l11.64-4.82c.51-.21,1.1.03,1.31.54.21.51-.03,1.1-.54,1.31l-11.64,4.82c-.13.05-.25.08-.38.08Z"></path>
+            </svg>
+        </button>
+        <div class="header-name">Build Changelogs</div>
+    </header>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-content">
+            <h2>Devices</h2>
+            <ul>
+                <li>
+                    <span>Redmi Note 11</span>
+                    <ul class="roms-list">
+                        <li><a href="#redmi-note-11-project-matrixx">Project Matrixx</a></li>
+                    </ul>
+                </li>
+                 </ul>
+                 <p class="sidebar-copyright">
+                    A PROJECT FOR THE COMMUNITY.<br>
+                    <span class="footer-doodle">Made with ❤️ by</span>
+                    <a href="https://github.com/SHITIJHALDER" target="_blank" rel="noopener noreferrer" class="copyright-link">SHITIJ HALDER</a>.<br>
+                </p>
+            </div>
+    </div>
+
+    <main>
+        <section class="device-section" id="Redmi Note 11">
+            <h2>Redmi Note 11</h2>
+            <div class="rom-cards">
+                <div class="rom-card" id="redmi-note-11-project-matrixx">
+                    <img src="rom-banner/project-matrixx.webp" alt="Project Matrixx Banner" class="rom-banner">
+                    <h3>Project Matrixx <span class="rom-author">by tanvirr007 ✗ sayann70</span></h3>
+                    <div class="changelog">
+                        <p>
+                        <strong>Version 11.2.6</strong> (23/03/2025)</p>
+                        <ul>
+                        <li>Add init.spes.rc</li>
+                        <li>Disable turbulence noise</li>
+                        <li>Introduce GameBar v2.0</li>
+                        <li>Move GameBar to system settings</li>
+                        <li>Add custom icon for GameBar on system settings</li>
+                        <li>Move NFC to global manifest</li>
+                        <li>Move to M3 switch for GameSpace 2.0</li>
+                        <li>Many more misc. changes</li>
+                        </ul>
+                        <br>
+                        <p><strong>Version 11.2.6</strong> (21/03/2025)</p>
+                        <ul>
+                        <li>Add front-facing camera protection</li>
+                        <li>Add support for modernized doze double/single tap to wake</li>
+                        <li>Drop legacy double-tap-to-wake config</li>
+                        <li>Drop MIUI Camera</li>
+                        <li>Drop old Android Go configurations</li>
+                        <li>Enable fts_gesture_mode</li>
+                        <li>Enable Bluetooth HAL to read MAC address from NV</li>
+                        <li>Enable Touch Gestures</li>
+                        <li>Handle DT2W feature through Xiaomi Touch</li>
+                        <li>Implement double/single tap attributes</li>
+                        <li>Implement support for multiple touch sensor paths</li>
+                        <li>Remove camera-daemon boost configs</li>
+                        <li>Remove unneeded NFC package</li>
+                        <li>Many more misc. changes</li>
+                        </ul>
+                        <br>
+                        <p><strong>Version 11.2.5</strong> (02/03/2025)</p>
+                        <ul>
+                        <li>Add WPA3 definition for SAE authentication</li>
+                        <li>Allow system_server to read fastcharge node</li>
+                        <li>Build QTI Thermal AIDL HAL</li>
+                        <li>Disable config_avoidGfxAccel overlay</li>
+                        <li>Enable force LTE_CA toggle overlay</li>
+                        <li>Fix video thumbnail bug</li>
+                        <li>Fix WPA3 Wi-Fi authentication</li>
+                        <li>Remove software C2 codec overrides</li>
+                        <li>Update reserved partition size</li>
+                        <li>Many more misc. changes</li>
+                        </ul>
+                        <br>
+                        <p><strong>Version 11.2.0</strong> (13/02/2025)</p>
+                        <ul>
+                        <li>Synced with the latest source</li>
+                        <li>Switched to the Murali kernel</li>
+                        <li>Added support for displaying battery info in settings</li>
+                        <li>Fixed battery drain issues</li>
+                        <li>Reduced ZRAM to 50%</li>
+                        <li>Enabled deep buffer for media by default</li>
+                        <li>Enabled WPA3/SAE</li>
+                        <li>Enabled smart pixels</li>
+                        <li>Reduced wakeup events to 100ms</li>
+                        <li>Disabled wakeup source creation</li>
+                        <li>Updated to Wakelock Blocker driver v1.1.0</li>
+                        <li>Reduced wakelock hold time to 1000ms</li>
+                        <li>Reduced timeout for uncongestion</li>
+                        <li>Reduced GC thread urgent sleep time to 50ms</li>
+                        <li>Disabled I/O stats accounting by default</li>
+                        <li>Reduced NTP wakeups</li>
+                        <li>Optimized file overwrites</li>
+                        <li>Applied branch optimization in free slowpath</li>
+                        <li>Many more misc. changes</li>
+                        </ul>
+                        <br>
+                        <p><strong>Version 11.1.0</strong> (02/02/2025)</p>
+                        <ul>
+                        <li>Initial A15 QPR1 Release</li>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <!-- <p>&copy; 2025 Shitij Halder & Debarpan Paul. All rights reserved.</p> -->
+        <div class="footer-doodles">
+            <img src="svg/stars-svgrepo-com.svg" alt="Star Doodle" class="footer-doodle">
+            <img src="svg/moon-and-stars-svgrepo-com.svg" alt="Moon Doodle" class="footer-doodle">
+            <img src="svg/planet-svgrepo-com.svg" alt="Planet Doodle" class="footer-doodle">
+            <img src="svg/satellite-svgrepo-com.svg" alt="Satellite" class="footer-doodle">
+            <img src="svg/atronaut-svgrepo-com.svg" alt="Astronaut" class="footer-doodle">
+            <img src="svg/atom-svgrepo-com.svg" alt="Atom" class="footer-doodle">
+            <img src="svg/ring-ship-svgrepo-com.svg" alt="Ring Ship" class="footer-doodle">
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    </body>
+   </body>
+</html>

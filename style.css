@@ -1,0 +1,710 @@
+/* Added this rule for smooth scrolling on anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/*
+---------------------- Author Info ----------------------
+Author: SHITIJ HALDER
+Telegram: @shitijnotop
+-----------------------------------------------------------
+*/
+
+/* ---------------------- Global Styles ---------------------- */
+
+/* Combined Body Styles */
+body {
+    /* Original styles */
+    margin: 0;                     /* Remove default body margin */
+    font-family: 'Inter', sans-serif; /* Set default font */
+    background-color: #000000;     /* Set background color to black */
+    color: #fff;                   /* Set default text color to white */
+    overflow-x: hidden;            /* Prevent horizontal scrolling */
+
+    /* Styles for footer positioning */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;             /* Make body at least full viewport height */
+
+    /* --- Added: Default cursor --- */
+    cursor: auto; /* Show default cursor for touch devices or if JS fails */
+}
+
+/* Hide default cursor ONLY for devices with fine pointers (like mice) */
+@media (pointer: fine) {
+    body {
+        cursor: none;
+    }
+}
+
+/* Main Content Area Growth */
+main {
+    flex-grow: 1; /* Allow main content to expand and take available space */
+             /* This pushes the footer down */
+    /* Add any other existing styles for 'main' here */
+}
+
+/* ---------------------- Custom Font Definition ---------------------- */
+
+@font-face {
+    font-family: 'Transcity'; /* Define the custom font name */
+    /* Path to the font file (ensure this path is correct relative to the CSS file) */
+    /* NOTE: Ensure '/fonts/transcity/Transcity.otf' is the correct path */
+    src: url('/fonts/transcity/Transcity.otf') format('opentype'); /* Specify font source and format */
+    font-display: swap; /* Improves perceived loading speed by showing fallback font first */
+}
+
+/* ---------------------- Header Styles ---------------------- */
+
+header {
+    background: rgba(17, 17, 17, 0.7); /* Dark background with 70% opacity */
+    backdrop-filter: blur(10px); /* Apply a blur effect to elements behind the header */
+    -webkit-backdrop-filter: blur(10px); /* Safari prefix */
+    padding: 1rem 2rem; /* Padding top/bottom and left/right */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically align items in the center */
+    position: sticky; /* Make the header stick to the top on scroll */
+    top: 0; /* Stick to the very top */
+    z-index: 1000; /* Ensure header stays above other content */
+    min-height: 50px; /* Ensure minimum height for consistent spacing */
+}
+
+/* Header Name (Logo/Title) Styles */
+.header-name {
+    font-family: 'Transcity', sans-serif; /* Use the custom Transcity font */
+    font-weight: normal; /* Use the normal font weight */
+    font-size: 2.5rem; /* Set font size */
+    text-align: left; /* Align text to the left */
+    /* margin-left: -10px; /* Removed negative nudge */
+    margin-left: 0rem; /* Add space after menu icon */
+    flex-grow: 1; /* Allow title to take available space */
+    margin-top: 0; /* Reset margin */
+    margin-bottom: 0; /* Reset margin */
+    line-height: 1.2;
+    /* Added for smooth text change */
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Added: Style for when the header title is transitioning */
+.header-name.changing {
+    opacity: 0;
+}
+
+
+/* Menu Icon Container Styles */
+.menu-icon {
+    cursor: pointer; /* Change cursor to pointer on hover */
+    margin-right: 1.5rem; /* Add space to the right of the icon */
+    display: flex; /* Use flexbox for centering the SVG */
+    align-items: center; /* Vertically center the SVG */
+    justify-content: center; /* Horizontally center the SVG */
+    /* margin-left: -15px; /* Nudge the icon slightly to the left */
+    margin-left: -20px; /* Shift the icon further left */
+
+    padding: 5px; /* Padding inside the border */
+    border: 1px solid #999; /* Add a grey border */
+    border-radius: 50px; /* Make the container circular */
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+    width: 40px; /* Fixed width */
+    height: 40px; /* Fixed height */
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    /* Ensure button styles don't interfere */
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+}
+/* Add focus style if needed, aligning with hover */
+.menu-icon:focus-visible {
+     box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+
+@media (max-width: 767px) {
+    .menu-icon {
+        margin-left: 0; /* Reset the left shift for mobile */
+    }
+}
+
+/* Menu Icon SVG Styles */
+.menu-icon svg {
+    fill: #fff; /* Set the icon's color to white */
+    width: 28px; /* SVG width */
+    height: 28px; /* SVG height */
+}
+
+/* Menu Icon Hover Effect */
+.menu-icon:hover {
+    transform: scale(1.1); /* Slightly enlarge the icon on hover */
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Add a soft white glow */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth transition for hover effects */
+}
+
+/* ---------------------- Header Bar Element Styles & Animation (Kept as provided) ---------------------- */
+/* Styles for a '.bar' element (likely related to the menu icon or header animation) */
+
+/* Apply left shift for mobile devices */
+@media (max-width: 767px) {
+    .bar {
+        transform: translateX(-15px); /* Shift element 15px left */
+    }
+
+    .bar:hover {
+        /* Adjust transform on hover to maintain the shift */
+        transform: scale(1.1) translateX(-10px);
+    }
+}
+
+/* Apply left shift for desktop devices */
+@media (min-width: 768px) {
+    .bar {
+        transform: translateX(-20px); /* Shift element 20px left */
+    }
+
+    .bar:hover {
+        /* Adjust transform on hover to maintain the shift */
+        transform: scale(1.1) translateX(-15px);
+    }
+}
+
+/* Default hover effect for '.bar' (likely mobile first) */
+.bar:hover {
+    transform: scale(1.1); /* Default scale effect */
+}
+
+/* Animated pseudo-element for '.bar' (creates a sliding highlight effect) */
+.bar::before {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position relative to the .bar element */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* A gradient that fades in from transparent, goes to white, then fades out */
+    background: linear-gradient(to right, transparent, #fff, transparent);
+    transform: translateX(-100%); /* Start positioned fully to the left */
+    animation: slide 2s infinite; /* Apply the 'slide' animation infinitely */
+}
+
+/* Keyframes for the sliding animation */
+@keyframes slide {
+    0% { transform: translateX(-100%); } /* Start off-screen left */
+    50% { transform: translateX(100%); } /* Slide across to the right */
+    100% { transform: translateX(100%); } /* Stay off-screen right before looping */
+}
+
+/* General H1 Heading Styles (if used outside specific sections) */
+/* Using .header-name for specific styling */
+/*
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+}
+*/
+
+/* ---------------------- Sidebar Styles ---------------------- */
+
+.sidebar {
+    position: fixed; /* Fix position relative to the viewport */
+    top: 0; /* Align to the top */
+    left: -300px; /* Start hidden off-screen to the left */
+    width: 300px; /* Set fixed width */
+    height: 100%; /* Take full viewport height */
+    background-color: #111; /* Dark background color */
+    transition: left 0.3s ease-in-out; /* Smooth transition for sliding effect */
+    z-index: 999; /* Position below the header but above most content */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for depth */
+    overflow-y: auto; /* Allow scrolling within sidebar */
+}
+
+/* Styles for when the sidebar is active (visible) */
+.sidebar.active {
+    left: 0; /* Slide the sidebar into view */
+}
+
+/* Sidebar Content Container Styles */
+.sidebar-content {
+    /* --- Added for Flexbox Layout & Copyright Positioning --- */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Fill sidebar height */
+    box-sizing: border-box; /* Include padding in height calculation */
+    /* --- End Added Flexbox Styles --- */
+
+    /* Existing padding (Adjust bottom padding if needed for copyright spacing) */
+    padding: calc(1rem + 50px + 1rem) 1.5rem 1.5rem 1.0rem; /* Example padding */
+}
+
+
+/* Sidebar Heading Styles */
+
+.sidebar-content h2 {
+    font-size: 1.6rem; /* Set font size */
+    font-weight: 700; /* Bold font weight */
+    color: #fff; /* White text color */
+    margin-top: 0;
+    margin-bottom: 1rem; /* Add space below heading */
+    flex-shrink: 0; /* Prevent heading from shrinking */
+}
+
+/* Sidebar Unordered List Styles */
+.sidebar-content ul {
+    list-style: none; /* Remove default bullet points */
+    padding: 0; /* Remove default padding */
+    margin: 0;
+}
+
+/* --- Added: Rule to make the main device list grow --- */
+/* Targets the direct UL child of .sidebar-content */
+.sidebar-content > ul {
+    flex-grow: 1; /* Allow list to take up available space */
+}
+/* --- End Added Rule --- */
+
+/* Sidebar List Item Styles */
+.sidebar-content li {
+    font-size: 1.2rem; /* Set font size */
+    margin: 0.5rem 0; /* Adjust vertical margin */
+    color: #ccc; /* Lighter grey text color */
+}
+/* Style for Device Names */
+.sidebar-content > ul > li > span {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.1em; /* Slightly larger */
+    display: block;
+    margin-bottom: 0.3rem;
+    margin-top: 1rem; /* Add space above device names */
+}
+.sidebar-content > ul > li:first-child > span {
+    margin-top: 0; /* No extra top margin for the first device */
+}
+
+/* Styles for Links within '.roms-list' (likely inside the sidebar) */
+.roms-list a {
+    color: #999; /* Grey color for links */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease-in-out, padding-left 0.3s ease-in-out; /* Smooth transition */
+    display: block; /* Make link easier to click */
+    padding: 0.3rem 0; /* Add some padding for easier clicking */
+    font-size: 1.0rem; /* Adjust ROM link font size */
+    margin-left: 1rem; /* Indent ROM links */
+}
+
+/* Hover effect for links within '.roms-list' */
+.roms-list a:hover {
+    color: #fff; /* Change color to white */
+    padding-left: 0.5rem; /* Indent slightly on hover */
+}
+
+/* --- Added: Styles for Sidebar Copyright --- */
+.sidebar-copyright {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: center;
+  margin-top: 1rem;   /* Space above the border */
+  padding-top: 1rem;  /* Space below the border */
+  border-top: 1px solid #444; /* Optional separator line */
+  line-height: 1.4;
+  flex-shrink: 0; /* Prevent the copyright from shrinking */
+}
+/* --- End Added Styles --- */
+
+/* ---------------------- Main Content Area Styles ---------------------- */
+
+main {
+    padding: 2rem; /* Add padding around the main content */
+    /* REMOVED: Padding top to prevent content hiding under sticky header */
+    /* padding-top: 80px; */
+}
+
+/* Device Section Styles */
+.device-section {
+    /* margin-top: -10px; /* Removed negative margin */
+    margin-bottom: 3rem; /* Add space between sections */
+    /* Add scroll margin top to account for sticky header when jumping */
+    scroll-margin-top: 80px; /* Adjust this value based on your header's height + desired gap */
+}
+
+/* Device Section Heading Styles */
+.device-section h2 {
+    font-size: 2.7rem; /* Larger font size for section titles */
+    font-weight: 600; /* Semi-bold font weight */
+    margin-bottom: 1.5rem; /* Space below the heading */
+    margin-top: 0; /* Remove default top margin */
+}
+
+/* ---------------------- ROM Card Styles ---------------------- */
+
+/* ROM Cards Container Styles */
+.rom-cards {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow cards to wrap onto the next line */
+    gap: 2.7rem; /* Space between cards */
+    justify-content: flex-start; /* Align cards starting from the left */
+    align-items: stretch; /* Align cards at the top of the container */
+    margin-bottom: 2.5rem; /* Space below the card container */
+}
+
+/* Individual ROM Card Styles */
+.rom-card {
+    background-color: #1a1a1a; /* Dark background for cards */
+    border-radius: 12px; /* Rounded corners */
+    overflow: hidden; /* Hide content that overflows the rounded corners */
+    transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
+    /* cursor: pointer; /* Removed, link inside is clickable */
+    width: calc(50% - 1.35rem); /* Default: 2 cards per row with gap */
+    max-width: 470px; /* Maximum width for each card */
+    margin: 0; /* Remove margin (handled by gap in flex container) */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    /* justify-content: space-between; Removed to let content flow */
+    padding: 1rem; /* Padding inside the card */
+    box-sizing: border-box;
+    /* Add scroll margin top to account for sticky header when jumping */
+    scroll-margin-top: 90px; /* Adjust this value - slightly more than section */
+}
+
+/* ROM Card Hover Effect */
+.rom-card:hover {
+    transform: scale(1.03); /* Slightly enlarge the card on hover */
+}
+
+/* ROM Banner Image Styles */
+.rom-banner {
+    width: 100%; /* Make image take full width of its container */
+    height: auto;
+    aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover area */
+    display: block; /* Ensure image behaves like a block element */
+    border-radius: 8px; /* Rounded corners for the image */
+    margin-bottom: 1rem; /* Space below image */
+}
+
+/* ROM Card Heading (Title) Styles */
+.rom-card h3 {
+    font-size: 1.7rem; /* Set font size */
+    font-weight: 600; /* Semi-bold font weight */
+    margin: 0 0 0.5rem 0; /* Adjust margin */
+    line-height: 1.3;
+}
+
+/* Changelog Section Styles within ROM Card */
+.changelog {
+    font-size: 1.0rem; /* Adjusted font size */
+    max-height: 150px; /* Set a maximum height */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+    padding: 0.5rem 0.2rem; /* Adjusted padding */
+    scrollbar-width: thin; /* Use thin scrollbars (Firefox) */
+    scrollbar-color: #666 #1a1a1a; /* Scrollbar colors: thumb track (Firefox) */
+    flex-grow: 1; /* Allow changelog to take available space */
+    margin-bottom: 1rem; /* Space before author */
+}
+
+/* Changelog Paragraph Styles */
+.changelog p {
+    font-weight: 600; /* Semi-bold font weight */
+    margin-top: 0;
+    margin-bottom: 0.5rem; /* Adjust space below */
+}
+
+/* Changelog Unordered List Styles */
+.changelog ul {
+    list-style: disc; /* Use standard disc bullet points */
+    padding-left: 1.5rem; /* Indent the list */
+    margin: 0; /* Remove default list margins */
+    font-size: 0.95rem;
+    color: #ccc;
+}
+.changelog li {
+    margin-bottom: 0.3rem;
+}
+
+/* ROM Author Text Styles */
+.rom-author {
+    font-weight: 600; /* Semi-bold font weight */
+    color: #FFD700; /* Gold color for the author */
+    font-size: 0.75em; /* Slightly smaller font size relative to parent */
+    margin-top: auto; /* Push to bottom */
+    text-align: right;
+}
+
+/* --- Custom Scrollbar Styles (WebKit) --- */
+.changelog::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+}
+
+.changelog::-webkit-scrollbar-track {
+    background: #1a1a1a; /* Background color of the track */
+    border-radius: 8px; /* Rounded corners for the track */
+}
+
+.changelog::-webkit-scrollbar-thumb {
+    background: #666; /* Color of the scrollbar handle (thumb) */
+    border-radius: 8px; /* Rounded corners for the thumb */
+}
+
+.changelog::-webkit-scrollbar-thumb:hover {
+    background: #888; /* Slightly lighter color on hover */
+}
+/* --- End Custom Scrollbar Styles --- */
+
+
+/* ---------------------- Responsive Adjustments ---------------------- */
+
+/* --- Medium Screens --- */
+@media (max-width: 1024px) {
+     .rom-card {
+        max-width: calc(50% - 1.35rem); /* Keep 2 columns */
+        scroll-margin-top: 85px; /* Adjust scroll margin */
+    }
+     .rom-card h3 {
+        font-size: 1.6rem;
+    }
+     .device-section h2 {
+        font-size: 2.4rem;
+    }
+     .header-name {
+         font-size: 2rem;
+     }
+     .device-section {
+        scroll-margin-top: 75px; /* Adjust scroll margin */
+     }
+     main {
+         /* REMOVED: Padding top adjustment */
+         /* padding-top: 75px; */
+     }
+     .sidebar-content {
+         /* Adjust based on medium screen header height if different */
+         padding-top: calc(1rem + 50px + 1rem);
+     }
+}
+
+
+/* --- Small Screens (Tablets/Large Phones) --- */
+@media (max-width: 767px) {
+    header {
+        padding: 0.8rem 1rem; /* Reduce header padding */
+        min-height: 40px; /* Adjust min-height if needed */
+    }
+    .header-name {
+        font-size: 1.8rem; /* Reduce font size */
+        margin-left: 0rem; /* Adjust space */
+    }
+     .menu-icon {
+        margin-right: 1rem;
+        /* margin-left: -10px; */ /* Reset nudge */
+        width: 35px;
+        height: 35px;
+    }
+    .menu-icon svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    main {
+        padding: 1rem;
+        /* REMOVED: Padding top adjustment */
+        /* padding-top: 70px; */
+    }
+
+     .device-section {
+        scroll-margin-top: 65px; /* Adjust based on mobile header height */
+    }
+     .device-section h2 {
+        font-size: 2rem; /* Smaller section title */
+        margin-bottom: 1rem;
+    }
+
+    .rom-cards {
+        gap: 1.5rem; /* Reduce gap */
+    }
+
+    /* Make cards full width on mobile */
+    .rom-card {
+        width: 100%;
+        max-width: 100%; /* Ensure it doesn't exceed screen width */
+        padding: 1rem;
+        scroll-margin-top: 70px; /* Adjust scroll margin */
+    }
+
+    .rom-banner {
+       /* Removed max-height constraint for better flexibility */
+    }
+
+    .rom-card h3 {
+        font-size: 1.4rem; /* Smaller font size for card title */
+    }
+
+    .changelog {
+        font-size: 0.95rem; /* Ensure readability */
+        max-height: 120px; /* Adjust max height */
+    }
+     .changelog ul {
+        padding-left: 1.2rem;
+    }
+
+    /* Responsive Sidebar Padding */
+    .sidebar-content {
+         /* Adjust based on mobile header height */
+         padding: calc(0.8rem + 40px + 1rem) 1.2rem 2rem 1.2rem;
+    }
+}
+
+/* --- Extra Small Screens (Small Phones) --- */
+@media (max-width: 480px) {
+     .header-name {
+        font-size: 2.2rem; /* Actually increase font size back */
+     }
+      .device-section h2 {
+        font-size: 1.8rem;
+    }
+     .rom-cards {
+        gap: 1rem; /* Further reduce gap */
+    }
+    .rom-card h3 {
+        font-size: 1.3rem;
+    }
+     .changelog {
+        font-size: 0.9rem;
+    }
+    .device-section {
+        scroll-margin-top: 60px; /* Adjust if header height changes */
+    }
+     .rom-card {
+        scroll-margin-top: 65px; /* Adjust if header height changes */
+    }
+     main {
+        /* REMOVED: Padding top adjustment */
+        /* padding-top: 65px; */
+     }
+     .sidebar-content {
+         /* Adjust based on smallest header height */
+         padding-top: calc(0.8rem + 40px + 0.8rem);
+     }
+}
+/* ---------------------- End Responsive Adjustments ---------------------- */
+
+/* ========== Footer Styles ========== */
+/* Copied from other pages for consistency */
+
+.footer {
+    background: #000000; /* Matches body background */
+    color: #FFD700; /* Gold text */
+    text-align: center;
+    padding: 2rem 1rem 1rem 1rem;
+    font-family: 'Milker', sans-serif;
+    overflow: hidden; /* Keeps doodles contained */
+    margin-top: 4rem; /* Space above footer */
+    width: 100%;
+    box-sizing: border-box; /* Includes padding in width */
+    flex-shrink: 0; /* Prevents shrinking in body flex layout */
+}
+
+.footer p { margin: 0 0 1rem 0; font-size: 0.9rem; }
+
+.footer-doodles {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.footer-doodle {
+    width: 50px; height: 50px;
+    object-fit: contain;
+    animation: float 8s ease-in-out infinite;
+    opacity: 0.9;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.footer-doodle:hover { transform: scale(1.2); opacity: 1; }
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.footer-doodle:nth-child(1) { animation-delay: 0s; }
+.footer-doodle:nth-child(2) { animation-delay: 1s; }
+.footer-doodle:nth-child(3) { animation-delay: 2s; }
+.footer-doodle:nth-child(4) { animation-delay: 3s; }
+.footer-doodle:nth-child(5) { animation-delay: 4s; }
+.footer-doodle:nth-child(6) { animation-delay: 5s; }
+.footer-doodle:nth-child(7) { animation-delay: 6s; }
+
+@media (max-width: 768px) {
+    .footer { padding: 1.5rem 1rem 1rem 1rem; margin-top: 3rem; }
+    .footer-doodles { gap: 1rem; }
+    .footer-doodle { width: 40px; height: 40px; }
+    .footer p { font-size: 0.8rem; }
+}
+@media (max-width: 480px) {
+    .footer { padding: 1rem 0.5rem 0.5rem 0.5rem; margin-top: 2rem; }
+    .footer-doodles { gap: 0.8rem; }
+    .footer-doodle { width: 35px; height: 35px; }
+    .footer p { font-size: 0.75rem; }
+}
+
+/* ========== END OF BASE/FOOTER CSS ========== */
+
+/* ================================== */
+/* === CSS FOR CUSTOM CURSOR & TRAIL === */
+/* ================================== */
+
+/* Default body cursor (for touch devices or if custom cursor fails) */
+body {
+    cursor: auto; /* Or 'default' */
+    /* Make sure other body styles are defined elsewhere */
+}
+
+/* Hide default cursor ONLY for devices with fine pointers (like mice) */
+@media (pointer: fine) {
+    body {
+        cursor: none;
+    }
+}
+
+/* Style for the main custom cursor element */
+#custom-cursor {
+    position: fixed; /* Position relative to the viewport */
+    top: 0;          /* Positioned by JS transform */
+    left: 0;         /* Positioned by JS transform */
+    width: 15px;     /* Size of the main cursor circle */
+    height: 15px;
+    border: 2px solid white; /* White outline */
+    border-radius: 50%;    /* Make it round */
+    pointer-events: none;  /* Allows clicking through the cursor */
+    z-index: 9999;         /* Ensure it's on top */
+    opacity: 0; /* Start hidden - JS makes it visible */
+    transform: translate(-50%, -50%); /* Center the element on the coords */
+    /* Optional: Add slight CSS smoothing to the main cursor's JS movement */
+    transition: transform 0.1s ease-out, opacity 0.3s ease-out;
+    will-change: transform, opacity;    /* Performance hint */
+}
+
+/* Style for the trail dot elements */
+.trail-dot {
+    position: fixed;
+    top: 0;          /* Positioned by JS transform */
+    left: 0;         /* Positioned by JS transform */
+    width: 8px;      /* Size of the trail dots */
+    height: 8px;
+    background-color: white; /* Solid white dots */
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;     /* Behind the main cursor */
+    opacity: 0; /* Start hidden - JS makes it visible */
+    transform: translate(-50%, -50%); /* Center the element on the coords */
+    will-change: transform, opacity; /* Performance hint */
+
+    /* --- IMPORTANT --- */
+    /* Only transition opacity for fade effects. */
+    /* Transform (movement) is handled entirely by JS each frame. */
+    transition: opacity 0.3s ease-out;
+}
+
+/* ================================== */
+/* === END OF CURSOR CSS           === */
+/* ================================== */
+
