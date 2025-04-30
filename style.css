@@ -50,15 +50,16 @@ main {
     font-family: 'Transcity'; /* Define the custom font name */
     /* Path to the font file (ensure this path is correct relative to the CSS file) */
     /* NOTE: Ensure '/fonts/transcity/Transcity.otf' is the correct path */
-    src: url('/fonts/transcity/Transcity.otf') format('opentype'); /* Specify font source and format */
+    src: url('fonts/transcity/Transcity.otf') format('opentype'); /* Specify font source and format */
     font-display: swap; /* Improves perceived loading speed by showing fallback font first */
 }
 
 /* ---------------------- Header Styles ---------------------- */
 
 header {
-    background: rgba(17, 17, 17, 0.7); /* Dark background with 70% opacity */
-    backdrop-filter: blur(10px); /* Apply a blur effect to elements behind the header */
+    /* *** UPDATED: Using background-color consistently *** */
+    background-color: rgba(17, 17, 17, 0.7); /* Dark background with 70% opacity */
+    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* Safari prefix */
     padding: 1rem 2rem; /* Padding top/bottom and left/right */
     display: flex; /* Use flexbox for layout */
@@ -73,14 +74,17 @@ header {
 .header-name {
     font-family: 'Transcity', sans-serif; /* Use the custom Transcity font */
     font-weight: normal; /* Use the normal font weight */
-    font-size: 2.5rem; /* Set font size */
+    font-size: 2.7rem; /* Set font size */
     text-align: left; /* Align text to the left */
     /* margin-left: -10px; /* Removed negative nudge */
     margin-left: 0rem; /* Add space after menu icon */
     flex-grow: 1; /* Allow title to take available space */
     margin-top: 0; /* Reset margin */
     margin-bottom: 0; /* Reset margin */
-    line-height: 1.2;
+    line-height: 1.2; /* Adjust line height for better readability */
+    color: #fff; /* Set text color to white */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Optional glow effect */
+    /* Added: Text shadow for a subtle glow effect */
     /* Added for smooth text change */
     transition: opacity 0.3s ease-in-out;
 }
@@ -209,9 +213,13 @@ h1 {
     left: -300px; /* Start hidden off-screen to the left */
     width: 300px; /* Set fixed width */
     height: 100%; /* Take full viewport height */
-    background-color: #111; /* Dark background color */
+    /* Background color matched to header (70% opacity) */
+    background-color: rgba(17, 17, 17, 0.7);
+    /* Backdrop filter matched to header */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari prefix */
     transition: left 0.3s ease-in-out; /* Smooth transition for sliding effect */
-    z-index: 999; /* Position below the header but above most content */
+    z-index: 999; /* Position below the header */
     box-shadow: 4px 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow for depth */
     overflow-y: auto; /* Allow scrolling within sidebar */
 }
@@ -241,8 +249,8 @@ h1 {
     font-size: 1.6rem; /* Set font size */
     font-weight: 700; /* Bold font weight */
     color: #fff; /* White text color */
-    margin-top: 0;
-    margin-bottom: 1rem; /* Add space below heading */
+    margin-top: .5rem; /* Space above heading */
+    margin-bottom: 0.2rem; /* Add space below heading */
     flex-shrink: 0; /* Prevent heading from shrinking */
 }
 
@@ -304,7 +312,11 @@ h1 {
   margin-top: 1rem;   /* Space above the border */
   padding-top: 1rem;  /* Space below the border */
   border-top: 1px solid #444; /* Optional separator line */
-  line-height: 1.4;
+  line-height: 1.4; /* Adjust line height for readability */
+  font-family: 'Inter', sans-serif; /* Use the same font as the rest of the site */
+  font-weight: 400; /* Normal weight */
+  color: #ccc; /* Light grey color */
+  margin-bottom: -0.5rem; /* Space below the copyright */
   flex-shrink: 0; /* Prevent the copyright from shrinking */
 }
 /* --- End Added Styles --- */
@@ -384,20 +396,31 @@ main {
 .rom-card h3 {
     font-size: 1.7rem; /* Set font size */
     font-weight: 600; /* Semi-bold font weight */
-    margin: 0 0 0.5rem 0; /* Adjust margin */
+    margin: 0 0 0.1rem 0; /* Adjust bottom margin slightly for author */
     line-height: 1.3;
+}
+
+/* *** UPDATED: ROM Author Text Styles *** */
+.rom-author {
+    font-weight: 500; /* Slightly less bold */
+    color: #ccc;      /* Changed color (was Gold #FFD700) */
+    font-size: 0.9em;  /* Adjusted font size relative to h3 */
+    margin-top: 0;     /* Removed auto margin */
+    margin-bottom: 0.8rem; /* Add space below author before changelog */
+    text-align: left;  /* Align to left (was right) */
+    display: block;    /* Ensure it takes its own line */
 }
 
 /* Changelog Section Styles within ROM Card */
 .changelog {
     font-size: 1.0rem; /* Adjusted font size */
-    max-height: 150px; /* Set a maximum height */
+    max-height: 300px; /* Increased Height */
     overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
     padding: 0.5rem 0.2rem; /* Adjusted padding */
     scrollbar-width: thin; /* Use thin scrollbars (Firefox) */
     scrollbar-color: #666 #1a1a1a; /* Scrollbar colors: thumb track (Firefox) */
     flex-grow: 1; /* Allow changelog to take available space */
-    margin-bottom: 1rem; /* Space before author */
+    margin-bottom: 1rem; /* Space after changelog (if needed before any potential footer) */
 }
 
 /* Changelog Paragraph Styles */
@@ -417,15 +440,6 @@ main {
 }
 .changelog li {
     margin-bottom: 0.3rem;
-}
-
-/* ROM Author Text Styles */
-.rom-author {
-    font-weight: 600; /* Semi-bold font weight */
-    color: #FFD700; /* Gold color for the author */
-    font-size: 0.75em; /* Slightly smaller font size relative to parent */
-    margin-top: auto; /* Push to bottom */
-    text-align: right;
 }
 
 /* --- Custom Scrollbar Styles (WebKit) --- */
@@ -464,7 +478,7 @@ main {
         font-size: 2.4rem;
     }
      .header-name {
-         font-size: 2rem;
+         font-size: 2.5rem;
      }
      .device-section {
         scroll-margin-top: 75px; /* Adjust scroll margin */
@@ -534,10 +548,16 @@ main {
     .rom-card h3 {
         font-size: 1.4rem; /* Smaller font size for card title */
     }
+    /* Updated author style for mobile */
+    .rom-author {
+        font-size: 0.85em;
+        margin-bottom: 0.6rem;
+    }
 
     .changelog {
         font-size: 0.95rem; /* Ensure readability */
-        max-height: 120px; /* Adjust max height */
+        /* Increased max-height for tablets/large phones */
+        max-height: 250px; /* << ADJUSTED THIS VALUE */
     }
      .changelog ul {
         padding-left: 1.2rem;
@@ -547,6 +567,11 @@ main {
     .sidebar-content {
          /* Adjust based on mobile header height */
          padding: calc(0.8rem + 40px + 1rem) 1.2rem 2rem 1.2rem;
+    }
+    /* Sidebar width adjustment for smaller screens if desired */
+    .sidebar {
+        width: 280px; /* Slightly narrower */
+        left: -280px; /* Match width */
     }
 }
 
@@ -564,8 +589,14 @@ main {
     .rom-card h3 {
         font-size: 1.3rem;
     }
+    /* Updated author style for small mobile */
+    .rom-author {
+        font-size: 0.8em;
+    }
      .changelog {
         font-size: 0.9rem;
+        /* Increased max-height for smaller phones */
+        max-height: 220px; /* << ADJUSTED THIS VALUE */
     }
     .device-section {
         scroll-margin-top: 60px; /* Adjust if header height changes */
@@ -580,6 +611,11 @@ main {
      .sidebar-content {
          /* Adjust based on smallest header height */
          padding-top: calc(0.8rem + 40px + 0.8rem);
+     }
+     /* Further sidebar width adjustment */
+     .sidebar {
+        width: 250px; /* Even narrower */
+        left: -250px; /* Match width */
      }
 }
 /* ---------------------- End Responsive Adjustments ---------------------- */
@@ -707,4 +743,3 @@ body {
 /* ================================== */
 /* === END OF CURSOR CSS           === */
 /* ================================== */
-
