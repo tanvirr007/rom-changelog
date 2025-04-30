@@ -359,26 +359,27 @@ main {
 
 /* Individual ROM Card Styles */
 .rom-card {
-    background-color: #1a1a1a; /* Dark background for cards */
+    background-color: #1a1a1a; /* Solid dark background */
     border-radius: 12px; /* Rounded corners */
-    overflow: hidden; /* Hide content that overflows the rounded corners */
-    transition: transform 0.3s ease-in-out; /* Smooth transition for hover effect */
-    /* cursor: pointer; /* Removed, link inside is clickable */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Keep subtle border */
+    overflow: hidden; /* Keep this for rounded corners */
+    /* --- UPDATED: Removed background-color from transition --- */
+    transition: transform 0.3s ease-in-out;
+    /* --- END UPDATED --- */
     width: calc(50% - 1.35rem); /* Default: 2 cards per row with gap */
     max-width: 470px; /* Maximum width for each card */
     margin: 0; /* Remove margin (handled by gap in flex container) */
     display: flex;
     flex-direction: column; /* Stack children vertically */
-    /* justify-content: space-between; Removed to let content flow */
     padding: 1rem; /* Padding inside the card */
     box-sizing: border-box;
-    /* Add scroll margin top to account for sticky header when jumping */
     scroll-margin-top: 90px; /* Adjust this value - slightly more than section */
 }
 
 /* ROM Card Hover Effect */
 .rom-card:hover {
     transform: scale(1.03); /* Slightly enlarge the card on hover */
+    /* background-color: #2a2a2a; /* REMOVED hover background color change */
 }
 
 /* ROM Banner Image Styles */
@@ -418,7 +419,7 @@ main {
     overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
     padding: 0.5rem 0.2rem; /* Adjusted padding */
     scrollbar-width: thin; /* Use thin scrollbars (Firefox) */
-    scrollbar-color: #666 #1a1a1a; /* Scrollbar colors: thumb track (Firefox) */
+    scrollbar-color: #666 transparent; /* Scrollbar colors: thumb track (Firefox) - Made track transparent */
     flex-grow: 1; /* Allow changelog to take available space */
     margin-bottom: 1rem; /* Space after changelog (if needed before any potential footer) */
 }
@@ -448,7 +449,7 @@ main {
 }
 
 .changelog::-webkit-scrollbar-track {
-    background: #1a1a1a; /* Background color of the track */
+    background: transparent; /* Background color of the track - Made transparent */
     border-radius: 8px; /* Rounded corners for the track */
 }
 
