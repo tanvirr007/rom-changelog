@@ -10,6 +10,7 @@
  - Dynamic Header Title on Scroll (All Devices - Revised)
  - Custom Cursor and Trail Effect (Desktop/Fine Pointer Only)
  - ROM Card Share Functionality (Mobile Share / Desktop Copy) with Specific Message Format (Handles 'by' in JS)
+ - Added: Logic to style codename smaller in dynamic header
 -----------------------------------------------------------
 */
 
@@ -88,7 +89,22 @@ async function handleShareClick(event) {
 
     // --- Extract data ---
     const romName = romNameElement ? romNameElement.textContent.trim() : 'Unknown ROM';
-    const deviceName = deviceNameElement ? deviceNameElement.textContent.trim() : 'Unknown Device';
+    // Extract device name and codename separately from the h2 element
+    let deviceName = 'Unknown Device';
+    let deviceCodename = '';
+    if (deviceNameElement) {
+        // Get all text content, including children
+        const fullDeviceText = deviceNameElement.textContent.trim();
+        const codenameSpan = deviceNameElement.querySelector('.codename');
+        if (codenameSpan) {
+            deviceCodename = codenameSpan.textContent.trim(); // Get text from codename span
+            // Remove the codename text from the full text to get just the device name
+            deviceName = fullDeviceText.replace(deviceCodename, '').trim();
+        } else {
+             deviceName = fullDeviceText; // If no codename span, the whole text is the name
+        }
+    }
+
     let authorName = authorElement ? authorElement.textContent.trim() : 'Unknown Author'; // Extract raw author text
 
     // *** NEW: Clean the extracted author name to remove potential leading "by " ***
@@ -113,10 +129,11 @@ async function handleShareClick(event) {
     // --- Construct URL and Share Text ---
     // Ensure the URL includes the hash for direct linking to the ROM card
     const shareUrl = `${window.location.origin}${window.location.pathname}#${romId}`;
-    const shareTitle = `Build Changelogs: ${deviceName}`; // Title for Web Share API
+    // Use device name and codename in the share title
+    const shareTitle = `Build Changelogs: ${deviceName} ${deviceCodename}`; // Title for Web Share API
     // *** Construct the share text format using the CLEANED author name ***
     // This format is designed to be descriptive for sharing.
-    const shareText = `Build Changelog of ${romName} for ${deviceName} by ${cleanedAuthorName}`;
+    const shareText = `Build Changelog of ${romName} for ${deviceName} ${deviceCodename} by ${cleanedAuthorName}`;
 
 
     // --- Check for Web Share API support ---
@@ -258,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===================================
-    // Dynamic Header Title Logic (Revised Approach)
+    // Dynamic Header Title Logic (Revised Approach with Codename Styling)
     // ===================================
     let dynamicHeaderEnabled = true;
     if (!header || !headerName || deviceSections.length === 0) {
@@ -268,47 +285,70 @@ document.addEventListener('DOMContentLoaded', function() {
     if (dynamicHeaderEnabled) {
         // Store the original header text content
         const originalHeaderText = headerName.textContent.trim();
-        let currentActiveTitle = originalHeaderText; // State variable for current title
+        // Use a state variable to track the current content of the header-name element
+        // This will now store the HTML structure (device name + styled codename)
+        let currentHeaderContent = originalHeaderText;
 
-        // Function to find the title of the device section currently in view
-        function findActiveDeviceSectionTitle(headerBottomPosition) {
-            let activeTitle = null;
+        // Function to find the title and codename of the device section currently in view
+        function findActiveDeviceSectionInfo(headerBottomPosition) {
+            let activeInfo = null; // { name: 'Device Name', codename: '(codename)' }
             const scrollY = window.scrollY;
 
-            // Iterate through device sections to find the one whose top is above the header's bottom edge
-            // and whose bottom is below the current scroll position.
             for (let i = 0; i < deviceSections.length; i++) {
                 const section = deviceSections[i];
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.offsetHeight;
                 const sectionTitleElement = section.querySelector('h2');
 
-                // Check if the scroll position is within the range of the section,
-                // considering the header height as an offset.
-                // The headerBottomPosition accounts for the fixed header masking the top of sections.
                 if (sectionTitleElement && scrollY >= (sectionTop - headerBottomPosition) && scrollY < (sectionTop + sectionHeight - headerBottomPosition)) {
-                    activeTitle = sectionTitleElement.textContent.trim();
-                    // Found the first active section, no need to check further
-                    break;
+                    // Found the active section, extract name and codename
+                    const fullText = sectionTitleElement.textContent.trim();
+                    const codenameSpan = sectionTitleElement.querySelector('.codename');
+                    let deviceName = fullText;
+                    let deviceCodename = '';
+
+                    if (codenameSpan) {
+                        deviceCodename = codenameSpan.textContent.trim();
+                        // Remove the codename text from the full text to get just the device name
+                        deviceName = fullText.replace(deviceCodename, '').trim();
+                    }
+
+                    activeInfo = { name: deviceName, codename: deviceCodename };
+                    break; // Found the first active section, no need to check further
                 }
             }
-            return activeTitle; // Returns the title or null
+            return activeInfo; // Returns the info object or null
         }
 
-        // Function to update the header title element
-        function updateHeaderTitle(newTitle) {
-            // Default to original text if no new title is provided (e.g., scrolled to top)
-            const targetTitle = newTitle || originalHeaderText;
-            // Only update if the title is actually changing to avoid unnecessary DOM updates
-            if (currentActiveTitle !== targetTitle) {
+        // Function to update the header title element with styled codename
+        function updateHeaderTitle(newInfo) {
+            // Construct the new content based on the info
+            let targetContent;
+            if (newInfo && newInfo.name) {
+                // Create the HTML structure: device name followed by a span for the codename
+                targetContent = `${newInfo.name}`;
+                if (newInfo.codename) {
+                    // Append the codename within a span with a class for styling
+                    // Use a class like 'header-codename' to style specifically in the header
+                    targetContent += ` <span class="header-codename">${newInfo.codename}</span>`;
+                }
+            } else {
+                // If no new info, revert to the original header text
+                targetContent = originalHeaderText;
+            }
+
+            // Only update if the content is actually changing
+            if (currentHeaderContent !== targetContent) {
                 if (headerName) {
                     // Add a class for potential CSS transitions/animations
                     headerName.classList.add('changing');
-                    currentActiveTitle = targetTitle; // Update state
-                    // Use a timeout to allow CSS transition to start before changing text
+                    currentHeaderContent = targetContent; // Update state
+
+                    // Use a timeout to allow CSS transition to start before changing content
                     setTimeout(() => {
                         if (headerName) {
-                            headerName.textContent = targetTitle;
+                            // Use innerHTML to render the HTML structure
+                            headerName.innerHTML = targetContent;
                             headerName.classList.remove('changing');
                         }
                     }, 150); // Match this duration to CSS transition duration for .header-name
@@ -319,12 +359,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll event handler
         function handleScroll() {
             if (header) {
-                // Get the height of the fixed header to calculate the correct scroll offset
                 const headerHeight = header.offsetHeight;
-                // Find the title of the currently active section
-                const activeTitle = findActiveDeviceSectionTitle(headerHeight);
-                // Update the header title
-                updateHeaderTitle(activeTitle);
+                // Find the info of the currently active section
+                const activeInfo = findActiveDeviceSectionInfo(headerHeight);
+                // Update the header title with the new info
+                updateHeaderTitle(activeInfo);
             }
         }
 
@@ -332,14 +371,12 @@ document.addEventListener('DOMContentLoaded', function() {
         let scrollTimeout;
         const throttledScroll = () => {
             clearTimeout(scrollTimeout);
-            // Delay the scroll handling slightly
             scrollTimeout = setTimeout(handleScroll, 50); // Adjust delay as needed
         };
 
         let resizeTimeout;
         const throttledResize = () => {
             clearTimeout(resizeTimeout);
-            // Re-calculate header height and update title after resize ends
             resizeTimeout = setTimeout(handleScroll, 150); // Delay for resize handling
         };
 

@@ -1,4 +1,4 @@
-/* Added this rule for smooth scrolling on anchor links */
+/* Add this rule for smooth scrolling on anchor links */
 html {
     scroll-behavior: smooth;
 }
@@ -87,12 +87,32 @@ header {
     /* Added: Text shadow for a subtle glow effect */
     /* Added for smooth text change */
     transition: opacity 0.3s ease-in-out;
+    /* --- Adjusted: Vertical position slightly --- */
+    /* Increased translateY to move the overall text down a bit more */
+    transform: translateY(4px); /* Shift down by 4 pixels */
+    /* --- End Adjusted --- */
 }
 
 /* Added: Style for when the header title is transitioning */
 .header-name.changing {
     opacity: 0;
 }
+
+/* --- Added: Style for the codename within the dynamic header title --- */
+/* This rule targets the span created by the JS for the codename in the header */
+.header-name .header-codename {
+    font-size: 0.6em; /* Adjust size as needed - smaller than the main title */
+    color: #aaa; /* Lighter color, similar to sidebar codename */
+    font-weight: normal; /* Ensure it's not bold like the main title */
+    margin-left: 0.2rem; /* Adjusted space after the device name */
+    /* Display inline to keep it on the same line as the device name */
+    display: inline;
+    /* --- Adjusted: Shift codename upwards relative to its baseline --- */
+    vertical-align: baseline; /* Keep baseline alignment */
+    transform: translateY(-1px); /* Shift codename up by 1 pixel */
+    /* --- End Adjusted --- */
+}
+/* --- End Added Style --- */
 
 
 /* Menu Icon Container Styles */
@@ -271,19 +291,24 @@ h1 {
 /* Sidebar List Item Styles */
 .sidebar-content li {
     font-size: 1.2rem; /* Set font size */
-    margin: 0.5rem 0; /* Adjust vertical margin */
+    margin: 0.2rem 0; /* Reduced vertical margin */
     color: #ccc; /* Lighter grey text color */
+    /* Use flexbox for aligning device name and codename */
+    display: flex;
+    flex-direction: column; /* Stack name and codename vertically */
+    align-items: flex-start; /* Align items to the left */
 }
-/* Style for Device Names */
-.sidebar-content > ul > li > span {
+
+/* Style for Device Names in sidebar */
+.sidebar-content > ul > li > span:first-child { /* Target the first span (device name) */
     font-weight: 600;
-    color: #fff;
+    color: #fff; /* White text color */
     font-size: 1.1em; /* Slightly larger */
-    display: block;
-    margin-bottom: 0.3rem;
-    margin-top: 1rem; /* Add space above device names */
+    display: block; /* Make it a block element */
+    margin-bottom: 0; /* Remove bottom margin */
+    margin-top: 0rem; /* Remove space above device names */
 }
-.sidebar-content > ul > li:first-child > span {
+.sidebar-content > ul > li:first-child > span:first-child {
     margin-top: 0; /* No extra top margin for the first device */
 }
 
@@ -332,7 +357,7 @@ main {
 /* Device Section Styles */
 .device-section {
     /* margin-top: -10px; /* Removed negative margin */
-    margin-bottom: 3rem; /* Add space between sections */
+    margin-bottom: 0.6rem; /* Further reduced space between sections */
     /* Add scroll margin top to account for sticky header when jumping */
     scroll-margin-top: 80px; /* Adjust this value based on your header's height + desired gap */
 }
@@ -343,6 +368,10 @@ main {
     font-weight: 600; /* Semi-bold font weight */
     margin-bottom: 1.5rem; /* Space below the heading */
     margin-top: 0; /* Remove default top margin */
+    display: flex; /* Use flexbox to align name and codename */
+    align-items: baseline; /* Align text baselines */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    gap: 0.5rem; /* Space between device name and codename */
 }
 
 /* ---------------------- ROM Card Styles ---------------------- */
@@ -450,7 +479,7 @@ main {
     color: #ccc;      /* Changed color (was Gold #FFD700) */
     font-size: 0.9em;  /* Adjusted font size relative to h3 */
     margin-top: 0;     /* Removed auto margin */
-    margin-bottom: 0.8rem; /* Add space below author before changelog */
+    margin-bottom: 0.4rem; /* Reduced space below author */
     text-align: left;  /* Align to left (was right) */
     display: block;    /* Ensure it takes its own line */
 }
@@ -506,6 +535,32 @@ main {
 }
 /* --- End Custom Scrollbar Styles --- */
 
+/* Added CSS class for smaller codenames, now includes parentheses */
+.codename {
+    font-size: 0.7em; /* Made even smaller */
+    color: #aaa; /* Lighter color */
+    font-weight: normal; /* Normal font weight */
+}
+
+/* Adjust codename margin in sidebar list item */
+.sidebar-content > ul > li > .codename {
+    display: block; /* Ensures it's on its own line */
+    margin-left: 0; /* Align to the left edge */
+    margin-top: 0.1rem; /* Small space below device name */
+    margin-bottom: 0.1rem; /* Reduced space below codename */
+}
+
+/* Adjust codename margin when next to device name in h2 */
+.device-section h2 .codename {
+    display: inline; /* Make it inline */
+    margin-left: 0.5rem; /* Space after device name */
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 0.8em; /* Slightly larger than sidebar codename */
+}
+
+/* Removed style for codename within the rom-card */
+
 
 /* ---------------------- Responsive Adjustments ---------------------- */
 
@@ -520,12 +575,11 @@ main {
     }
      .device-section h2 {
         font-size: 2.4rem;
+        margin-bottom: 0.8rem; /* Further reduced space */
     }
-     .header-name {
-         font-size: 2.5rem;
-     }
      .device-section {
         scroll-margin-top: 75px; /* Adjust scroll margin */
+        margin-bottom: 0.6rem; /* Reduced space */
      }
      main {
          /* REMOVED: Padding top adjustment */
@@ -534,6 +588,12 @@ main {
      .sidebar-content {
          /* Adjust based on medium screen header height if different */
          padding-top: calc(1rem + 50px + 1rem);
+     }
+     /* Adjust header codename size on medium screens */
+     .header-name .header-codename {
+         font-size: 0.55em; /* Slightly smaller */
+         margin-left: 0.2rem; /* Adjusted space */
+         transform: translateY(-1px); /* Shift codename up by 1 pixel */
      }
 }
 
@@ -547,6 +607,8 @@ main {
     .header-name {
         font-size: 1.8rem; /* Reduce font size */
         margin-left: 0rem; /* Adjust space */
+         /* Adjust vertical position for small screens */
+        transform: translateY(3px); /* Shift down by 3 pixels */
     }
      .menu-icon {
         margin-right: 1rem;
@@ -567,10 +629,11 @@ main {
 
      .device-section {
         scroll-margin-top: 65px; /* Adjust based on mobile header height */
+        margin-bottom: 0.4rem; /* Further reduced space */
     }
      .device-section h2 {
         font-size: 2rem; /* Smaller section title */
-        margin-bottom: 1rem;
+        margin-bottom: 0.6rem; /* Further reduced space */
     }
 
     .rom-cards {
@@ -617,15 +680,37 @@ main {
         width: 280px; /* Slightly narrower */
         left: -280px; /* Match width */
     }
+
+    /* Adjust codename size and position on smaller screens */
+    .codename {
+        font-size: 0.65em; /* Even smaller */
+    }
+    .sidebar-content > ul > li > .codename {
+        margin-top: 0.05rem; /* Smaller top margin */
+        margin-bottom: 0.1rem; /* Further reduced bottom margin */
+    }
+    .device-section h2 .codename {
+        font-size: 0.75em; /* Slightly smaller */
+        margin-left: 0.4rem;
+    }
+     /* Adjust header codename size on small screens */
+     .header-name .header-codename {
+         font-size: 0.5em; /* Even smaller */
+         margin-left: 0.2rem; /* Adjusted space */
+         transform: translateY(-1px); /* Shift codename up by 1 pixel */
+     }
 }
 
 /* --- Extra Small Screens (Small Phones) --- */
 @media (max-width: 480px) {
      .header-name {
         font-size: 2.2rem; /* Actually increase font size back */
+         /* Adjust vertical position for extra small screens */
+        transform: translateY(3px); /* Shift down by 3 pixels */
      }
       .device-section h2 {
         font-size: 1.8rem;
+        margin-bottom: 0.6rem; /* Reduced space */
     }
      .rom-cards {
         gap: 1rem; /* Further reduce gap */
@@ -644,6 +729,7 @@ main {
     }
     .device-section {
         scroll-margin-top: 60px; /* Adjust if header height changes */
+        margin-bottom: 0.2rem; /* Further reduced space */
     }
      .rom-card {
         scroll-margin-top: 65px; /* Adjust if header height changes */
@@ -660,6 +746,24 @@ main {
      .sidebar {
         width: 250px; /* Even narrower */
         left: -250px; /* Match width */
+     }
+     /* Adjust codename size and position on smallest screens */
+     .codename {
+         font-size: 0.6em; /* Smallest size */
+     }
+     .sidebar-content > ul > li > .codename {
+         margin-top: 0.05rem; /* Keep small */
+         margin-bottom: 0.05rem; /* Further reduced bottom margin */
+     }
+     .device-section h2 .codename {
+         font-size: 0.7em; /* Slightly smaller */
+         margin-left: 0.3rem;
+     }
+      /* Adjust header codename size on extra small screens */
+     .header-name .header-codename {
+         font-size: 0.45em; /* Smallest size */
+         margin-left: 0.1rem; /* Adjusted space */
+         transform: translateY(-1px); /* Shift codename up by 1 pixel */
      }
 }
 /* ---------------------- End Responsive Adjustments ---------------------- */
