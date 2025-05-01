@@ -393,15 +393,58 @@ main {
     margin-bottom: 1rem; /* Space below image */
 }
 
-/* ROM Card Heading (Title) Styles */
+/* Container for ROM Title and Share Icon */
+.rom-title-share {
+    display: flex;              /* Use flexbox for layout */
+    justify-content: space-between; /* Push title left, icon right */
+    align-items: center;        /* Vertically align items */
+    margin-bottom: 0.1rem;      /* Adjust spacing below the title/icon line */
+}
+
+/* ROM Card Heading (Title) Styles - Minor adjustment if needed */
 .rom-card h3 {
     font-size: 1.7rem; /* Set font size */
     font-weight: 600; /* Semi-bold font weight */
-    margin: 0 0 0.1rem 0; /* Adjust bottom margin slightly for author */
+    margin: 0; /* Remove default margins */
     line-height: 1.3;
+    flex-grow: 1; /* Allow title to take available space */
+    margin-right: 0.5rem; /* Add space between title and icon */
 }
 
-/* *** UPDATED: ROM Author Text Styles *** */
+/* Share Icon Styles (the container span) */
+.share-icon {
+    cursor: pointer;            /* Indicate it's clickable */
+    flex-shrink: 0;           /* Prevent icon from shrinking */
+    padding: 4px;               /* Add some padding around the icon */
+    border-radius: 50%;         /* Make the background circle (optional if img is circular) */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+    display: inline-flex;     /* Use inline-flex for better alignment */
+    align-items: center;
+    justify-content: center;
+    line-height: 0; /* Prevents extra space if span has height */
+}
+
+/* Share Icon Hover Effect */
+.share-icon:hover {
+    background-color: rgba(255, 255, 255, 0.15); /* Subtle background on hover */
+    transform: scale(1.1); /* Slightly enlarge */
+}
+
+/* Style for the img icon within the share span */
+.share-icon img {
+    display: block; /* Helps prevent extra space below the image */
+    /* Set width/height here OR in the HTML img tag */
+    width: 20px; /* Example */
+    height: 20px; /* Example */
+    vertical-align: middle; /* May help alignment */
+    /* Use filter to make the black SVG appear white */
+    filter: brightness(0) invert(1);
+    /* Alternative filter if the base SVG was different: */
+    /* filter: invert(1) brightness(2); */
+}
+
+
+/* ROM Author Text Styles */
 .rom-author {
     font-weight: 500; /* Slightly less bold */
     color: #ccc;      /* Changed color (was Gold #FFD700) */
@@ -629,7 +672,7 @@ main {
     color: #FFD700; /* Gold text */
     text-align: center;
     padding: 2rem 1rem 1rem 1rem;
-    font-family: 'Milker', sans-serif;
+    font-family: 'Milker', sans-serif; /* Ensure 'Milker' font is defined or loaded if used */
     overflow: hidden; /* Keeps doodles contained */
     margin-top: 4rem; /* Space above footer */
     width: 100%;
@@ -690,17 +733,10 @@ main {
 /* ================================== */
 
 /* Default body cursor (for touch devices or if custom cursor fails) */
-body {
-    cursor: auto; /* Or 'default' */
-    /* Make sure other body styles are defined elsewhere */
-}
+/* body rule already exists at the top */
 
 /* Hide default cursor ONLY for devices with fine pointers (like mice) */
-@media (pointer: fine) {
-    body {
-        cursor: none;
-    }
-}
+/* @media (pointer: fine) rule already exists at the top */
 
 /* Style for the main custom cursor element */
 #custom-cursor {
@@ -714,9 +750,11 @@ body {
     pointer-events: none;  /* Allows clicking through the cursor */
     z-index: 9999;         /* Ensure it's on top */
     opacity: 0; /* Start hidden - JS makes it visible */
-    transform: translate(-50%, -50%); /* Center the element on the coords */
+    /* Corrected transform to center element accurately on JS coords */
+    transform: translate(-50%, -50%);
     /* Optional: Add slight CSS smoothing to the main cursor's JS movement */
-    transition: transform 0.1s ease-out, opacity 0.3s ease-out;
+    /* Removed transform transition as JS handles it per frame */
+    transition: opacity 0.3s ease-out;
     will-change: transform, opacity;    /* Performance hint */
 }
 
@@ -732,7 +770,8 @@ body {
     pointer-events: none;
     z-index: 9998;     /* Behind the main cursor */
     opacity: 0; /* Start hidden - JS makes it visible */
-    transform: translate(-50%, -50%); /* Center the element on the coords */
+    /* Corrected transform to center element accurately on JS coords */
+    transform: translate(-50%, -50%);
     will-change: transform, opacity; /* Performance hint */
 
     /* --- IMPORTANT --- */
@@ -744,3 +783,26 @@ body {
 /* ================================== */
 /* === END OF CURSOR CSS           === */
 /* ================================== */
+
+/* ---------------------- Toast Notification Styles ---------------------- */
+.toast-notification {
+    position: fixed;            /* Fixed position on screen */
+    bottom: 20px;               /* Position from the bottom */
+    left: 50%;                  /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    background-color: rgba(50, 50, 50, 0.9); /* Dark semi-transparent background */
+    color: #fff;                /* White text */
+    padding: 10px 20px;         /* Padding inside */
+    border-radius: 20px;        /* Rounded corners */
+    font-size: 0.9rem;          /* Font size */
+    z-index: 1001;              /* Above most other content, below modals if any */
+    opacity: 0;                 /* Start hidden */
+    visibility: hidden;         /* Start hidden (accessibility) */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Smooth fade */
+    pointer-events: none;       /* Don't block clicks */
+}
+
+.toast-notification.show {
+    opacity: 1;                 /* Make visible */
+    visibility: visible;        /* Make visible (accessibility) */
+}
