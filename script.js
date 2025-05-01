@@ -1,19 +1,18 @@
 /*
------------------------------------------------------------
- JavaScript for Build Changelogs Site (External script.js)
- Includes:
- - Sidebar Toggle (Global for onclick, finds button internally)
- - DOMContentLoaded setup
- - Author/Credit Console Logs
- - Click Outside / Escape Key to Close Sidebar (Manual close)
- - Sidebar Link Click/Scrolling Handler (Manual close)
- - Dynamic Header Title on Scroll (All Devices - Revised)
- - Custom Cursor and Trail Effect (Desktop/Fine Pointer Only)
- - ROM Card Share Functionality (Mobile Share / Desktop Copy) with Specific Message Format (Handles 'by' in JS)
- - Added: Logic to style codename smaller in dynamic header
------------------------------------------------------------
-*/
+JavaScript for Build Changelogs Site (External script.js)
 
+Includes:
+Sidebar Toggle (Global for onclick, finds button internally)
+DOMContentLoaded setup
+Author/Credit Console Logs
+Click Outside / Escape Key to Close Sidebar (Manual close)
+Sidebar Link Click/Scrolling Handler (Manual close)
+Dynamic Header Title on Scroll (All Devices - Revised)
+Custom Cursor and Trail Effect (Desktop/Fine Pointer Only)
+ROM Card Share Functionality (Mobile Share / Desktop Copy) with Specific Message Format (Handles 'by' in JS)
+Added: Logic to style codename smaller in dynamic header
+Added: Double-tap/click header to scroll to top
+*/
 // Use strict mode for potentially better error handling and performance
 'use strict';
 
@@ -23,7 +22,6 @@
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.querySelector('.menu-icon');
-
     if (!sidebar) {
         console.error("Sidebar element not found in toggleSidebar.");
         return;
@@ -52,7 +50,6 @@ function showToast(message) {
     }, 3000);
 }
 
-
 // ===================================
 // Share Icon Click Handler (Revised Logic - Cleans Author Name in JS)
 // ===================================
@@ -66,7 +63,6 @@ async function handleShareClick(event) {
         // This check is mostly for robustness, delegation should prevent calling if not needed
         return;
     }
-
     const romId = shareIcon.dataset.romId;
     if (!romId) {
         console.error("Share icon clicked, but data-rom-id attribute is missing on the element or its closest ancestor with class 'share-icon'.");
@@ -125,7 +121,6 @@ async function handleShareClick(event) {
      }
     // *** End of cleaning logic ***
 
-
     // --- Construct URL and Share Text ---
     // Ensure the URL includes the hash for direct linking to the ROM card
     const shareUrl = `${window.location.origin}${window.location.pathname}#${romId}`;
@@ -134,7 +129,6 @@ async function handleShareClick(event) {
     // *** Construct the share text format using the CLEANED author name ***
     // This format is designed to be descriptive for sharing.
     const shareText = `Build Changelog of ${romName} for ${deviceName} ${deviceCodename} by ${cleanedAuthorName}`;
-
 
     // --- Check for Web Share API support ---
     if (navigator.share) {
@@ -175,17 +169,15 @@ async function handleShareClick(event) {
     }
 }
 
-
 // ===================================
 // DOMContentLoaded Event Listener
 // ===================================
 document.addEventListener('DOMContentLoaded', function() {
-
     // --- Select elements needed within DOMContentLoaded ---
     const sidebar = document.getElementById('sidebar');
     const menuButton = document.querySelector('.menu-icon');
     const sidebarLinks = document.querySelectorAll('.sidebar .roms-list a');
-    const header = document.querySelector('header');
+    const header = document.querySelector('header'); // Select the header element
     const headerName = document.querySelector('.header-name');
     const deviceSections = document.querySelectorAll('.device-section');
     const cursorElement = document.getElementById('custom-cursor'); // For custom cursor
@@ -210,7 +202,6 @@ document.addEventListener('DOMContentLoaded', function() {
          mainContentArea.addEventListener('click', handleShareClick);
          console.log("Event listener for share icons attached to main content area.");
     }
-
 
     // ===================================
     // Author/Credit Console Logs (Unchanged)
@@ -388,6 +379,24 @@ document.addEventListener('DOMContentLoaded', function() {
         handleScroll();
     }
 
+    // ===================================
+    // Scroll to Top on Header Double-Click/Tap
+    // ===================================
+    // Check if the header element exists
+    if (header) {
+        // Add a double-click event listener to the header
+        header.addEventListener('dblclick', function() {
+            console.log("Header double-clicked/tapped. Scrolling to top.");
+            // Scroll smoothly to the top of the page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+         console.log("Double-click listener added to header for scroll-to-top.");
+    } else {
+        console.warn("Header element not found. Double-click scroll-to-top feature disabled.");
+    }
 
     // ==============================================================
     // Custom Cursor & Trail Logic (Smoother JS Interpolation)
@@ -465,7 +474,6 @@ document.addEventListener('DOMContentLoaded', function() {
                  cursorElement.style.transform = `translate(${positions[0][0].toFixed(2)}px, ${positions[0][1].toFixed(2)}px)`;
             }
 
-
             // Interpolate positions for trail dots, each following the one before it
             for (let i = 1; i <= numDots; i++) {
                  const currentDot = dots[i-1]; // dots array is 0-indexed, positions array includes cursor at index 0
@@ -525,10 +533,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // <<< END: Custom Cursor & Trail Logic >>>
     // ==============================================================
 
-
     // ===================================
     // Final Log
     // ===================================
     console.log("Build Changelogs site scripts initialized successfully from script.js.");
-
 }); // End of DOMContentLoaded listener
